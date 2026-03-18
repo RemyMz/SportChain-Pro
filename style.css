@@ -86,6 +86,15 @@ body {
   color: var(--text-muted);
 }
 
+/* Style pour le nom à côté du logo */
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 10px;
+  text-transform: none; /* Garde la casse normale pour le nom */
+}
+
 /* Zone de contenu défilante */
 .content-area {
   flex: 1;

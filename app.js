@@ -7,7 +7,7 @@
 
 // --- CONFIGURATION DU SMART CONTRACT ---
 /** @constant {string} Adresse du contrat déployé sur le réseau */
-const contractAddress = "0xcCab62819CBf29BaefF5FC8C3F4B72Fe9d247fCB";
+const contractAddress = "0x1CE70CfB7BddF6464bddA7Aac100e99b85a8c370";
 
 /** @constant {Array} ABI (Application Binary Interface) du contrat */
 const contractABI = [
