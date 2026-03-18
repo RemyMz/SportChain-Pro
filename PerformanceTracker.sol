@@ -8,19 +8,19 @@ import "@openzeppelin/contracts@4.9.3/token/ERC721/ERC721.sol";
  * @author Rémy MAZINGUE / IMT NORD EUROPE
  * @notice Gère la certification de performances sportives via des Soulbound Tokens (SBT).
  * @dev Les jetons sont non-transférables (Soulbound). Seuls l'admin et les coachs peuvent agir.
- * Le contrat hérite d'ERC721 mais surcharge les transferts pour les bloquer[cite: 2, 3, 39].
+ * Le contrat hérite d'ERC721 mais surcharge les transferts pour les bloquer.
  */
 contract PerformanceAttestation is ERC721 {
     
-    /** * @notice Adresse du super-utilisateur ayant les droits de gestion des coachs et retrait de fonds[cite: 13, 16].
+    /** * @notice Adresse du super-utilisateur ayant les droits de gestion des coachs et retrait de fonds.
      */
     address public admin;
 
-    /** * @dev Compteur interne pour l'ID du prochain jeton à forger[cite: 3].
+    /** * @dev Compteur interne pour l'ID du prochain jeton à forger.
      */
     uint256 private _nextTokenId = 1;
 
-    /** * @notice Prix fixe (0.01 ETH) pour l'achat d'un thème cosmétique par un athlète[cite: 4].
+    /** * @notice Prix fixe (0.01 ETH) pour l'achat d'un thème cosmétique par un athlète.
      */
     uint256 public constant THEME_PREMIUM_PRICE = 0.01 ether;
 
@@ -45,54 +45,54 @@ contract PerformanceAttestation is ERC721 {
         address coach;
     }
 
-    /** @dev Mapping associant un athlète à son historique complet d'attestations[cite: 6]. */
+    /** @dev Mapping associant un athlète à son historique complet d'attestations. */
     mapping(address => Attestation[]) private athleteAttestations;
 
-    /** @dev Mapping indiquant si une adresse possède les droits de Coach[cite: 7]. */
+    /** @dev Mapping indiquant si une adresse possède les droits de Coach. */
     mapping(address => bool) public isCoach;
 
-    /** @dev Mapping stockant le nom public lié à une adresse d'athlète[cite: 8]. */
+    /** @dev Mapping stockant le nom public lié à une adresse d'athlète. */
     mapping(address => string) public athleteNames;
 
-    /** @dev Double mapping pour vérifier si un utilisateur possède un thème spécifique[cite: 9]. */
+    /** @dev Double mapping pour vérifier si un utilisateur possède un thème spécifique. */
     mapping(address => mapping(uint256 => bool)) public hasTheme;
 
     // --- ÉVÉNEMENTS ---
 
-    /** @notice Émis lors de la création d'un nouveau certificat de performance[cite: 10]. */
+    /** @notice Émis lors de la création d'un nouveau certificat de performance. */
     event AttestationCreated(uint256 indexed tokenId, address indexed athlete, string athleteName, address indexed coach, string sport, string performanceType, uint256 score, string unit);
     
-    /** @notice Émis lorsqu'un nouveau coach est accrédité[cite: 11]. */
+    /** @notice Émis lorsqu'un nouveau coach est accrédité. */
     event CoachAdded(address indexed coach);
     
-    /** @notice Émis lorsqu'un coach perd ses droits d'accès[cite: 11]. */
+    /** @notice Émis lorsqu'un coach perd ses droits d'accès. */
     event CoachRemoved(address indexed coach);
     
-    /** @notice Émis lorsqu'un athlète est lié à un nom pour la première fois[cite: 11]. */
+    /** @notice Émis lorsqu'un athlète est lié à un nom pour la première fois. */
     event AthleteRegistered(address indexed athlete, string name);
     
-    /** @notice Émis lors de la suppression (burn) d'une attestation[cite: 12]. */
+    /** @notice Émis lors de la suppression (burn) d'une attestation. */
     event AttestationRevoked(uint256 indexed tokenId, address indexed athlete);
     
-    /** @notice Émis lors de l'achat réussi d'un thème premium[cite: 12]. */
+    /** @notice Émis lors de l'achat réussi d'un thème premium. */
     event ThemePurchased(address indexed athlete, uint256 themeId);
 
     // --- MODIFICATEURS ---
 
-    /** @dev Restreint l'accès aux fonctions à l'adresse admin uniquement[cite: 13]. */
+    /** @dev Restreint l'accès aux fonctions à l'adresse admin uniquement. */
     modifier onlyAdmin() {
         require(msg.sender == admin, "Acces refuse : Admin requis");
         _;
     }
 
-    /** @dev Restreint l'accès aux coachs accrédités ou à l'admin[cite: 14]. */
+    /** @dev Restreint l'accès aux coachs accrédités ou à l'admin. */
     modifier onlyCoach() {
         require(isCoach[msg.sender] || msg.sender == admin, "Acces refuse : Coach requis");
         _;
     }
 
     /**
-     * @dev Constructeur initialisant le nom et le symbole du jeton, et définit l'admin[cite: 16].
+     * @dev Constructeur initialisant le nom et le symbole du jeton, et définit l'admin.
      */
     constructor() ERC721("SportChain Certificate", "SPORT") {
         admin = msg.sender;
@@ -103,7 +103,7 @@ contract PerformanceAttestation is ERC721 {
     /**
      * @notice Accrédite un nouveau coach.
      * @param _coach L'adresse du futur coach.
-     * @dev Seul l'admin peut appeler cette fonction[cite: 18, 19].
+     * @dev Seul l'admin peut appeler cette fonction.
      */
     function addCoach(address _coach) external onlyAdmin {
         require(_coach != address(0), "Adresse invalide");
@@ -115,7 +115,7 @@ contract PerformanceAttestation is ERC721 {
     /**
      * @notice Retire les droits d'écriture à un coach.
      * @param _coach L'adresse du coach à révoquer.
-     * @dev Seul l'admin peut appeler cette fonction[cite: 20, 21].
+     * @dev Seul l'admin peut appeler cette fonction.
      */
     function removeCoach(address _coach) external onlyAdmin {
         require(isCoach[_coach], "Coach non repertorie");
@@ -125,7 +125,7 @@ contract PerformanceAttestation is ERC721 {
 
     /**
      * @notice Retire les fonds (ETH) accumulés par les ventes de thèmes.
-     * @dev Transfère la totalité de la balance du contrat à l'admin[cite: 22, 23].
+     * @dev Transfère la totalité de la balance du contrat à l'admin.
      */
     function withdraw() external onlyAdmin {
         uint256 balance = address(this).balance;
@@ -139,7 +139,7 @@ contract PerformanceAttestation is ERC721 {
      * @notice Enregistre l'identité d'un athlète dans le système.
      * @param _athlete Adresse publique de l'athlète.
      * @param _name Nom ou pseudonyme de l'athlète.
-     * @dev Pré-requis nécessaire avant toute création d'attestation[cite: 24, 25, 26].
+     * @dev Pré-requis nécessaire avant toute création d'attestation.
      */
     function registerAthlete(address _athlete, string calldata _name) external onlyCoach {
         require(_athlete != address(0), "Adresse invalide");
@@ -154,7 +154,7 @@ contract PerformanceAttestation is ERC721 {
      * @param _performanceType Détail de l'exercice.
      * @param _score Valeur de la performance.
      * @param _unit Unité associée.
-     * @dev Incrémente l'ID du jeton et émet un événement complet pour le front-end[cite: 26, 27, 29].
+     * @dev Incrémente l'ID du jeton et émet un événement complet pour le front-end.
      */
     function createAttestation(
         address _athlete,
@@ -186,7 +186,7 @@ contract PerformanceAttestation is ERC721 {
     /**
      * @notice Permet à un athlète d'acheter un thème visuel premium.
      * @param _themeId Identifiant du thème souhaité.
-     * @dev Requiert l'envoi exact ou supérieur de THEME_PREMIUM_PRICE en ETH[cite: 31, 32].
+     * @dev Requiert l'envoi exact ou supérieur de THEME_PREMIUM_PRICE en ETH.
      */
     function buyTheme(uint256 _themeId) external payable {
         require(msg.value >= THEME_PREMIUM_PRICE, "Prix incorrect");
@@ -202,7 +202,7 @@ contract PerformanceAttestation is ERC721 {
      * @notice Détruit une attestation existante en cas d'erreur ou fraude.
      * @param _athlete Adresse du propriétaire du jeton.
      * @param _tokenId ID du jeton à supprimer.
-     * @dev Seul l'admin ou le coach émetteur peut révoquer. Utilise l'échange d'index pour optimiser le gaz[cite: 33, 34, 35, 37].
+     * @dev Seul l'admin ou le coach émetteur peut révoquer. Utilise l'échange d'index pour optimiser le gaz.
      */
     function revokeAttestation(address _athlete, uint256 _tokenId) external {
         require(ownerOf(_tokenId) == _athlete, "Proprietaire incorrect");
@@ -212,7 +212,7 @@ contract PerformanceAttestation is ERC721 {
         for (uint256 i = 0; i < attestations.length; i++) {
             if (attestations[i].tokenId == _tokenId) {
                 require(msg.sender == admin || msg.sender == attestations[i].coach, "Non autorise");
-                // Remplacement par le dernier élément pour pop() efficace [cite: 35]
+                // Remplacement par le dernier élément pour pop() efficace
                 attestations[i] = attestations[attestations.length - 1];
                 attestations.pop();
                 found = true;
@@ -229,22 +229,22 @@ contract PerformanceAttestation is ERC721 {
 
     /**
      * @dev Surcharge interne bloquant tout transfert du jeton après émission.
-     * @notice Empêche l'échange des certificats entre utilisateurs (Soulbound)[cite: 38, 39].
+     * @notice Empêche l'échange des certificats entre utilisateurs (Soulbound).
      */
     function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal virtual override {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
-        // Seuls le Mint (from == 0) et le Burn (to == 0) sont autorisés [cite: 39]
+        // Seuls le Mint (from == 0) et le Burn (to == 0) sont autorisés
         require(from == address(0) || to == address(0), "SBT : Transfert interdit");
     }
 
     // --- VUES ---
 
-    /** @notice Retourne la liste complète des attestations pour une adresse donnée[cite: 40]. */
+    /** @notice Retourne la liste complète des attestations pour une adresse donnée. */
     function getAthleteAttestations(address _athlete) external view returns (Attestation[] memory) {
         return athleteAttestations[_athlete];
     }
 
-    /** @notice Retourne le nom enregistré pour une adresse donnée[cite: 41]. */
+    /** @notice Retourne le nom enregistré pour une adresse donnée. */
     function getAthleteName(address _athlete) external view returns (string memory) {
         return athleteNames[_athlete];
     }
