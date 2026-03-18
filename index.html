@@ -3,179 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SportChain Pro | Certification de Performances</title>
-
+    <title>SportChain Pro | Certification Blockchain</title>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="loginScreen" class="login-container">
       <div class="login-card">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
-          alt="Logo MetaMask"
-          width="60"
-          class="mt-10" />
-        <h1>SportChain</h1>
-        <p class="text-muted mt-10">
-          Certification de performances sur Ethereum
-        </p>
-
-        <button id="connectButton" class="primary-action mt-10">
-          Connecter MetaMask
-        </button>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" width="60" />
+        <h1>SportChain Pro</h1>
+        <p class="text-muted">Authentification via Ethereum</p>
+        <button id="connectButton" class="primary-action mt-10">Se connecter</button>
       </div>
     </div>
 
     <div id="appArea" class="app-layout hidden">
       <header class="top-nav">
-        <div class="logo">
-          SPORTCHAIN PRO
-          <span class="user-name">| Rémy MAZINGUE - FISA ITR CI1</span>
-        </div>
+        <div class="logo">SPORTCHAIN PRO <span class="user-name">| Certification Officielle</span></div>
         <div id="accountArea" class="user-pill">Non connecté</div>
       </header>
 
       <main class="content-area">
-        <section class="card central-card">
-          <h2>🔍 Rechercher un Palmarès</h2>
-          <div class="flex-row mt-10">
-            <input
-              type="text"
-              id="searchAthleteAddr"
-              placeholder="Adresse Ethereum de l'athlète (0x...)" />
-            <button id="getAttestationsButton" class="primary-action">
-              Consulter
-            </button>
-          </div>
-          <div id="attestationsList" class="mt-10"></div>
-        </section>
-
         <section id="block-athlete" class="card central-card hidden">
           <div class="flex-row" style="justify-content: space-between">
-            <h2 id="athleteWelcome">Bonjour</h2>
-            <div id="athleteBadge" class="user-pill">Athlète Certifié</div>
+            <h2 id="athleteWelcome">Tableau de bord</h2>
+            <div class="user-pill">Athlète Certifié</div>
           </div>
-          <h3 class="mt-10">Vos Certificats NFT</h3>
           <div id="myAttestationsProfile" class="nft-grid mt-10"></div>
+          
+          <div class="shop-container mt-10">
+            <h3>✨ Boutique de Prestige</h3>
+            <div class="nft-grid">
+              <div class="card shop-item">
+                <h4>Pack "Légende Or"</h4>
+                <p class="text-muted">Fini doré pour vos certificats.</p>
+                <div class="price-tag">0.01 ETH</div>
+                <button onclick="purchaseTheme(1)" class="primary-action">Acheter</button>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section id="block-coach" class="grid-admin hidden">
-          <div class="card">
-            <h2>📝 Espace Coach</h2>
-            <div class="sub-section mt-10">
-              <h3>Inscrire un Athlète</h3>
-              <input
-                type="text"
-                id="regAthleteAddr"
-                placeholder="Adresse Wallet (0x...)" />
-              <input
-                type="text"
-                id="regAthleteName"
-                placeholder="Nom complet" />
-              <button id="registerAthleteButton" class="primary-action">
-                Inscrire
-              </button>
-            </div>
-
-            <h3 class="mt-10">🏃 Athlètes liés</h3>
-            <div class="table-scroll mt-10">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nom / Adresse</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="athleteTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3>Certifier un Record</h3>
-            <input
-              type="text"
-              id="athleteAddr"
-              placeholder="Adresse de l'athlète (0x...)" />
-
-            <select id="sportName">
-              <option value="">Sélectionner un Sport...</option>
-            </select>
-
-            <select id="perfType" disabled>
-              <option value="">Sélectionner une Épreuve...</option>
-            </select>
-
-            <div class="flex-row">
-              <input type="number" id="perfScore" placeholder="Score" />
-              <input
-                type="text"
-                id="perfUnit"
-                placeholder="Unité (auto)"
-                readonly />
-            </div>
-
-            <button id="createAttestationButton" class="primary-action mt-10">
-              Signer le Record
-            </button>
-
-            <h3 class="text-danger" style="margin-top: 2.5rem">
-              🔥 Révocation
-            </h3>
-            <p
-              class="text-muted"
-              style="font-size: 0.85rem; margin-bottom: 1rem">
-              Action irréversible. Détruit le NFT.
-            </p>
-            <div class="flex-row">
-              <input
-                type="text"
-                id="revokeAthleteAddr"
-                placeholder="Adresse (0x...)" />
-              <input type="number" id="revokeTokenId" placeholder="ID Token" />
-            </div>
-            <button
-              id="revokeAttestationButton"
-              class="primary-action btn-danger">
-              Révoquer NFT
-            </button>
-          </div>
-        </section>
+            </section>
 
         <section id="block-admin" class="grid-admin hidden">
-          <div class="card">
-            <h2 class="text-danger">Administration</h2>
-            <h3 class="mt-10">Ajouter un Coach</h3>
-            <input
-              type="text"
-              id="coachAddress"
-              placeholder="Adresse Wallet (0x...)" />
-            <button id="addCoachButton" class="primary-action mt-10">
-              Promouvoir Coach
-            </button>
-          </div>
-
-          <div class="card">
-            <h3>Coachs Accrédités</h3>
-            <div class="table-scroll mt-10">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Adresse</th>
-                    <th>Date d'ajout</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="coachTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
+            </section>
       </main>
     </div>
-
     <script src="app.js"></script>
   </body>
 </html>
