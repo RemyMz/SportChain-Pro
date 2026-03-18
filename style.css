@@ -1,0 +1,351 @@
+/* ==========================================================================
+   VARIABLES DE DESIGN (DESIGN SYSTEM)
+   Centralisation des couleurs, ombres et espacements pour une maintenance aisée.
+   ========================================================================== */
+:root {
+  /* Couleurs de fond */
+  --bg-app: #f8fafc;
+  --bg-panel: #ffffff;
+
+  /* Couleurs de texte */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+
+  /* Couleurs d'accentuation (Branding SportChain) */
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --danger: #ef4444;
+  --success: #10b981;
+  --purple: #8b5cf6;
+
+  /* Structure et Effets */
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* ==========================================================================
+   RESET & BASE
+   Nettoyage des marges par défaut et configuration de la typographie.
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden; /* Empêche le scroll global pour utiliser le flex du layout */
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   Structure en Flexbox pour une application Web "Full-Screen".
+   ========================================================================== */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Barre de navigation supérieure */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 64px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--primary);
+  letter-spacing: -0.025em;
+}
+
+/* Badge pour l'adresse de wallet */
+.user-pill {
+  background: #f1f5f9;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* Zone de contenu défilante */
+.content-area {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Animation fluide à l'affichage des sections */
+main.content-area > div {
+  margin-bottom: 3rem;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   CONTENEURS & COMPOSANTS DE CARTES
+   ========================================================================== */
+.card {
+  background: var(--bg-panel);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Centre les formulaires de recherche et le profil athlète */
+.central-card {
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Grille spécifique pour l'espace Coach et Admin (Sidebar + Content) */
+.grid-admin {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+}
+
+/* Sous-sections grises pour hiérarchiser les formulaires */
+.sub-section {
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   FORMULAIRES & BOUTONS
+   ========================================================================== */
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Bouton principal (Call to Action) */
+.primary-action {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.primary-action:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.primary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Variantes de boutons */
+.btn-danger {
+  background: var(--danger);
+}
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+/* Boutons secondaires (Petits) */
+.btn-small {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--text-main);
+  transition: 0.2s;
+}
+
+.btn-small:hover {
+  background: var(--bg-app);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-small.btn-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.btn-small.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ==========================================================================
+   TABLEAUX & LISTES DE DONNÉES
+   ========================================================================== */
+.table-scroll {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+th {
+  background: #f8fafc;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px;
+}
+
+td {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* Style spécifique pour l'historique déplié d'un athlète */
+.history-inner {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-left: 10px;
+  border-left: 3px solid var(--primary);
+}
+
+/* ==========================================================================
+   COMPOSANTS MÉTIERS (LOGIN & NFT)
+   ========================================================================== */
+
+/* Écran d'accueil/MetaMask */
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.login-card {
+  text-align: center;
+  width: 380px;
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+/* Grille de présentation des attestations NFT */
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Carte NFT individuelle */
+.nft-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nft-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.nft-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.nft-score {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.nft-type {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   UTILITAIRES (UTILITIES)
+   Classes d'appoint pour les manipulations rapides via JavaScript.
+   ========================================================================== */
+.hidden {
+  display: none !important;
+}
+
+.mt-10 {
+  margin-top: 1rem;
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.flex-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
