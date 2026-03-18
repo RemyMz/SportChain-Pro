@@ -9,8 +9,8 @@ Projet de certification de performances sportives utilisant des **Soulbound Toke
 
 ## 🛠 Procédure de Test (Ganache)
 1.  **Déploiement :** Déployez `PerformanceAttestation.sol` via Remix (Injected Provider) sur votre instance Ganache.
-2.  **Configuration :** Copiez l'adresse du contrat dans `app.js` (variable `contractAddress`).
-3.  **Lancement :** Ouvrez `index.html` avec l'extension VS Code "Live Server".
+2.  **Configuration :** Copiez l'adresse du contrat et l'ABI dans `app.js` (variable `contractAddress` et `contractABI`).
+3.  **Lancement :** Ouvrez `index.html` avec l'extension VS Code "Live Server" ou lancez un serveur depuis la racine du projet avec la commande `npx serve .`
 
 ## 🎭 Scénario de démonstration
 1.  **Compte 1 (Admin) :** Ajoutez l'adresse du Compte 2 comme "Coach".
